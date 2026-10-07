@@ -1,0 +1,123 @@
+﻿@model MyHRExample.Models.AnalysisResultModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <title>Деталі аналізу кандидата</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+            body {
+                background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 50%, #f8bbd0 100%);
+                font-family: 'Segoe UI', sans-serif;
+                margin: 0;
+            }
+
+            .card-wrapper {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 15px 35px rgba(216, 27, 96, 0.1);
+                width: 100%;
+                max-width: 900px;
+            }
+
+            .section-title {
+                color: #880e4f;
+                font-weight: bold;
+                border-bottom: 2px solid #fce4ec;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                text-transform: uppercase;
+            }
+
+            .badge-custom {
+                background-color: #f8bbd0;
+                color: #880e4f;
+                font-size: 0.9rem;
+                padding: 8px 12px;
+                margin: 4px;
+                border-radius: 8px;
+                display: inline-block;
+                font-weight: 500;
+            }
+
+            .custom-solid-btn {
+                background: linear-gradient(135deg, #d81b60 0%, #ad1457 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                padding: 10px 20px;
+                box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
+                text-decoration: none;
+                display: inline-block;
+            }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center min-vh-100 p-3">
+
+    <div class="card-wrapper">
+        <h2 class="fw-bold text-center mb-5" style="color: #d81b60;">✨ Детальний звіт AI</h2>
+
+        <div class="mb-4">
+            <h5 class="section-title">🛠 Знайдені навички</h5>
+            <div>
+                @if (Model != null && Model.Skills != null && Model.Skills.Any())
+                {
+                    foreach (var item in Model.Skills)
+                    {
+                        <span class="badge-custom">@item</span>
+                    }
+                }
+                else
+                {
+
+                    <p class="text-muted">Дані відсутні або JSON ще генерується...</p>
+                }
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5 class="section-title text-success">✅ Підтверджені вимоги</h5>
+                <ul class="list-group list-group-flush">
+                    @if (Model != null && Model.ConfirmedRequirements != null)
+                    {
+                        foreach (var item in Model.ConfirmedRequirements)
+                        {
+                            <li class="list-group-item bg-transparent">✔️ @item</li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="section-title text-danger">⚠️ Відсутня інформація</h5>
+                <ul class="list-group list-group-flush">
+                    @if (Model != null && Model.MissingInformation != null)
+                    {
+                        foreach (var item in Model.MissingInformation)
+                        {
+                            <li class="list-group-item bg-transparent">❌ @item</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="p-4 rounded-3 mb-5" style="background-color: #fce4ec; border-left: 5px solid #d81b60;">
+            <h5 class="fw-bold" style="color: #880e4f;">💡 AI Summary:</h5>
+            <p class="mb-0 fs-5">@(Model != null ? Model.Summary : "Зачекайте, формується звіт...")</p>
+        </div>
+
+        <div class="text-center">
+            <a asp-action="HrResumes" class="custom-solid-btn fw-bold px-5 py-2">
+                ⬅ Повернутися до Дашборда
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
